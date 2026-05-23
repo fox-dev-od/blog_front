@@ -8,10 +8,15 @@ import { CaseCategoriesPage } from '../../pages/case-categories/CaseCategoriesPa
 import { CaseEditorPage } from '../../pages/cases/CaseEditorPage';
 import { CasesPage } from '../../pages/cases/CasesPage';
 import { DashboardPage } from '../../pages/dashboard/DashboardPage';
+import { DashboardDocsPage } from '../../pages/docs/DashboardDocsPage';
+import { PublicDocsPage } from '../../pages/docs/PublicDocsPage';
 import { LoginPage } from '../../pages/login/LoginPage';
+import { UserEditorPage } from '../../pages/users/UserEditorPage';
+import { UsersPage } from '../../pages/users/UsersPage';
 import { ProtectedRoute } from './ProtectedRoute';
 
 export const router = createBrowserRouter([
+  { path: '/docs', element: <PublicDocsPage /> },
   { path: '/login', element: <LoginPage /> },
   {
     path: '/dashboard',
@@ -25,6 +30,9 @@ export const router = createBrowserRouter([
       { path: 'cases', element: <CasesPage /> },
       { path: 'cases/create', element: <CaseEditorPage /> },
       { path: 'cases/:id', element: <CaseEditorPage /> },
+      { path: 'users', element: <UsersPage /> },
+      { path: 'users/:id', element: <UserEditorPage /> },
+      { path: 'docs', element: <DashboardDocsPage /> },
       { path: 'activity-logs', element: <ActivityLogsPage /> },
       { path: 'blacklist', element: <BlacklistPage /> },
     ],

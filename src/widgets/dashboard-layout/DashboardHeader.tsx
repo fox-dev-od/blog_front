@@ -26,13 +26,13 @@ export const DashboardHeader = () => {
     >
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         <Box>
-          <Typography sx={{ fontWeight: 700 }}>Administration</Typography>
+          <Typography sx={{ fontWeight: 700 }}>Адміністрування</Typography>
           <Typography variant="caption" color="text.secondary">
-            {user?.email || 'Authenticated session'}
+            {user?.email || 'Авторизована сесія'}
           </Typography>
         </Box>
         <Button variant="outlined" size="small" onClick={handleLogout}>
-          Logout
+          Вийти
         </Button>
       </Toolbar>
     </AppBar>

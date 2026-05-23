@@ -39,20 +39,20 @@ export const ActivityLogsPage = () => {
 
   return (
     <>
-      <PageHeader title="Activity logs" />
+      <PageHeader title="Журнал активності" />
       {loading ? <Loader /> : items.length === 0 ? <EmptyState /> : (
         <Paper sx={{ borderRadius: 2, overflow: 'hidden' }}>
           <Table>
-            <TableHead><TableRow><TableCell>Action</TableCell><TableCell>Method</TableCell><TableCell>URL</TableCell><TableCell>Status</TableCell><TableCell>Created</TableCell><TableCell align="right">Actions</TableCell></TableRow></TableHead>
+            <TableHead><TableRow><TableCell>Дія</TableCell><TableCell>Метод</TableCell><TableCell>URL</TableCell><TableCell>Статус</TableCell><TableCell>Створено</TableCell><TableCell align="right">Дії</TableCell></TableRow></TableHead>
             <TableBody>
               {items.map((item) => (
                 <TableRow key={item._id}>
                   <TableCell>{item.action}</TableCell>
                   <TableCell>{item.method}</TableCell>
                   <TableCell>{item.url}</TableCell>
-                  <TableCell><Chip size="small" color={item.success ? 'success' : 'error'} label={item.statusCode ?? 'n/a'} /></TableCell>
+                  <TableCell><Chip size="small" color={item.success ? 'success' : 'error'} label={item.statusCode ?? 'н/д'} /></TableCell>
                   <TableCell>{new Date(item.createdAt).toLocaleString()}</TableCell>
-                  <TableCell align="right"><Button size="small" color="error" onClick={() => void handleDelete(item._id)}>Delete</Button></TableCell>
+                  <TableCell align="right"><Button size="small" color="error" onClick={() => void handleDelete(item._id)}>Видалити</Button></TableCell>
                 </TableRow>
               ))}
             </TableBody>

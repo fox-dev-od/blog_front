@@ -4,6 +4,7 @@ export type CaseInfoItem = {
   label: string;
   value: string;
   icon?: string | null;
+  iconSize?: number;
   order?: number;
 };
 
@@ -19,7 +20,7 @@ export type CaseItem = {
   _id: string;
   title: string;
   slug: string;
-  categoryId: string;
+  categoryId: string | { _id: string; title: string; slug?: string };
   subtitle?: string | null;
   description?: string | null;
   coverImage?: string | null;

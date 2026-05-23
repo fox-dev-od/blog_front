@@ -9,8 +9,8 @@ type EmptyStateProps = {
 };
 
 export const EmptyState = ({
-  title = 'No data',
-  description = 'There are no records to display yet.',
+  title = 'Немає даних',
+  description = 'Поки що немає записів для відображення.',
 }: EmptyStateProps) => (
   <Paper variant="outlined" sx={{ p: 4, borderRadius: 2 }}>
     <Stack spacing={1.5} sx={{ alignItems: 'center' }}>

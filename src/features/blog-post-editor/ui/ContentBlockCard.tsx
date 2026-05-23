@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
 import { AppTextField } from '../../../shared/ui/AppTextField';
+import { ImageUploadField } from '../../../shared/ui/ImageUploadField';
 import { BlogPostFormValues } from '../model/types';
 import { RichTextEditor } from './RichTextEditor';
 
@@ -24,7 +25,16 @@ export const ContentBlockCard = ({
   onMoveUp,
   onMoveDown,
 }: ContentBlockCardProps) => {
-  const { register, control } = form;
+  const { register, control, getValues, setValue } = form;
+  const imagesFieldName = `blocks.${index}.imagesText` as const;
+  const appendImageUrls = (urls: string[]) => {
+    const currentValue = getValues(imagesFieldName);
+    setValue(
+      imagesFieldName,
+      [currentValue, ...urls].filter(Boolean).join('\n'),
+      { shouldDirty: true },
+    );
+  };
 
   return (
     <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
@@ -33,34 +43,34 @@ export const ContentBlockCard = ({
           direction="row"
           sx={{ justifyContent: 'space-between', alignItems: 'center' }}
         >
-          <Typography sx={{ fontWeight: 700 }}>Block {index + 1}</Typography>
+          <Typography sx={{ fontWeight: 700 }}>Блок {index + 1}</Typography>
           <Stack direction="row" spacing={1}>
             <Button size="small" onClick={onMoveUp}>
-              Up
+              Вгору
             </Button>
             <Button size="small" onClick={onMoveDown}>
-              Down
+              Вниз
             </Button>
             <Button size="small" color="error" onClick={onRemove}>
-              Delete
+              Видалити
             </Button>
           </Stack>
         </Stack>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-          <AppTextField select label="Type" {...register(`blocks.${index}.type`)}>
-            <MenuItem value="text">Text</MenuItem>
-            <MenuItem value="gallery">Gallery</MenuItem>
-            <MenuItem value="text-images">Text with images</MenuItem>
+          <AppTextField select label="Тип" {...register(`blocks.${index}.type`)}>
+            <MenuItem value="text">Текст</MenuItem>
+            <MenuItem value="gallery">Галерея</MenuItem>
+            <MenuItem value="text-images">Текст із фото</MenuItem>
           </AppTextField>
-          <AppTextField select label="Layout" {...register(`blocks.${index}.layout`)}>
-            <MenuItem value="text-top">Text top</MenuItem>
-            <MenuItem value="text-left">Text left</MenuItem>
-            <MenuItem value="text-right">Text right</MenuItem>
-            <MenuItem value="gallery-grid">Gallery grid</MenuItem>
-            <MenuItem value="gallery-masonry">Gallery masonry</MenuItem>
+          <AppTextField select label="Макет" {...register(`blocks.${index}.layout`)}>
+            <MenuItem value="text-top">Текст зверху</MenuItem>
+            <MenuItem value="text-left">Текст ліворуч</MenuItem>
+            <MenuItem value="text-right">Текст праворуч</MenuItem>
+            <MenuItem value="gallery-grid">Галерея сіткою</MenuItem>
+            <MenuItem value="gallery-masonry">Галерея masonry</MenuItem>
           </AppTextField>
         </Stack>
-        <AppTextField label="Heading" {...register(`blocks.${index}.heading`)} />
+        <AppTextField label="Заголовок блоку" {...register(`blocks.${index}.heading`)} />
         <Controller
           control={control}
           name={`blocks.${index}.html`}
@@ -68,12 +78,13 @@ export const ContentBlockCard = ({
             <RichTextEditor value={field.value} onChange={field.onChange} />
           )}
         />
+        <ImageUploadField multiple onUploaded={appendImageUrls} />
         <AppTextField
-          label="Image URLs"
-          placeholder="One URL per line"
+          label="Посилання на фото"
+          placeholder="Одне посилання в рядку"
           multiline
           minRows={2}
-          {...register(`blocks.${index}.imagesText`)}
+          {...register(imagesFieldName)}
         />
       </Stack>
     </Paper>

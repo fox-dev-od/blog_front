@@ -21,28 +21,28 @@ export const CaseTabsEditor = ({ form }: CaseTabsEditorProps) => {
   return (
     <Stack spacing={2}>
       <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
-        <Typography variant="h6">Tabs</Typography>
+        <Typography variant="h6">Вкладки</Typography>
         <Button
           variant="outlined"
           onClick={() =>
             append({ title: '', slug: '', order: fields.length, isActive: true, blocks: [] })
           }
         >
-          Add tab
+          Додати вкладку
         </Button>
       </Stack>
       {fields.map((field, index) => (
         <Paper key={field.id} variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
           <Stack spacing={2}>
             <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end' }}>
-              <Button size="small" onClick={() => index > 0 && move(index, index - 1)}>Up</Button>
-              <Button size="small" onClick={() => index < fields.length - 1 && move(index, index + 1)}>Down</Button>
-              <Button size="small" color="error" onClick={() => remove(index)}>Delete</Button>
+              <Button size="small" onClick={() => index > 0 && move(index, index - 1)}>Вгору</Button>
+              <Button size="small" onClick={() => index < fields.length - 1 && move(index, index + 1)}>Вниз</Button>
+              <Button size="small" color="error" onClick={() => remove(index)}>Видалити</Button>
             </Stack>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-              <AppTextField label="Title" {...register(`tabs.${index}.title`)} />
+              <AppTextField label="Назва" {...register(`tabs.${index}.title`)} />
               <AppTextField label="Slug" {...register(`tabs.${index}.slug`)} />
-              <FormControlLabel control={<Checkbox defaultChecked {...register(`tabs.${index}.isActive`)} />} label="Active" />
+              <FormControlLabel control={<Checkbox defaultChecked {...register(`tabs.${index}.isActive`)} />} label="Активна" />
             </Stack>
             <CaseBlocksEditor form={form} tabIndex={index} />
           </Stack>

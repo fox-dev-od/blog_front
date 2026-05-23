@@ -52,7 +52,7 @@ export const CaseEditorPage = () => {
 
   return (
     <>
-      <PageHeader title={isCreate ? 'Create case' : 'Edit case'} />
+      <PageHeader title={isCreate ? 'Створити кейс' : 'Редагувати кейс'} />
       {loading ? <Loader /> : <CaseForm initialValue={item} categories={categories} onSubmit={handleSubmit} />}
     </>
   );

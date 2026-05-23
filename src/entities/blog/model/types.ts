@@ -25,4 +25,23 @@ export type BlogPost = {
   updatedAt?: string;
 };
 
-export type BlogPostPayload = Omit<BlogPost, '_id' | 'createdAt' | 'updatedAt'>;
+export type BlogBlockLayout =
+  | 'image_top_text_bottom'
+  | 'image_bottom_text_top'
+  | 'image_left_text_right'
+  | 'image_right_text_left'
+  | 'image_only'
+  | 'text_only';
+
+export type BlogPostPayload = {
+  title: string;
+  slug: string;
+  subtitle?: string | null;
+  tags?: string[];
+  status?: BlogPostStatus;
+  blocks?: Array<{
+    imageUrl?: string;
+    html?: string;
+    layout: BlogBlockLayout;
+  }>;
+};

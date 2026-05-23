@@ -26,9 +26,9 @@ export const ConfirmDialog = ({
       <DialogContentText>{description}</DialogContentText>
     </DialogContent>
     <DialogActions>
-      <Button onClick={onClose}>Cancel</Button>
+      <Button onClick={onClose}>Скасувати</Button>
       <Button color="error" variant="contained" onClick={onConfirm}>
-        Confirm
+        Підтвердити
       </Button>
     </DialogActions>
   </Dialog>

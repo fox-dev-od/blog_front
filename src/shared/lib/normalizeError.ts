@@ -7,12 +7,12 @@ export const normalizeError = (error: unknown) => {
       return message.join(', ');
     }
 
-    return message || error.message || 'Request failed';
+    return message || error.message || 'Запит не виконано';
   }
 
   if (error instanceof Error) {
     return error.message;
   }
 
-  return 'Something went wrong';
+  return 'Щось пішло не так';
 };

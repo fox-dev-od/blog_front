@@ -11,6 +11,7 @@ import { CaseCategory } from '../../../entities/case-category/model/types';
 import { CaseItem, CasePayload } from '../../../entities/case/model/types';
 import { AppButton } from '../../../shared/ui/AppButton';
 import { AppTextField } from '../../../shared/ui/AppTextField';
+import { ImageUploadField } from '../../../shared/ui/ImageUploadField';
 import { caseSchema } from '../model/schemas';
 import { CaseFormValues } from '../model/types';
 import { CaseInfoEditor } from './CaseInfoEditor';
@@ -35,6 +36,7 @@ const toDefaultValues = (item?: CaseItem | null): CaseFormValues => ({
   info: item?.info?.map((infoItem, index) => ({
     ...infoItem,
     icon: infoItem.icon ?? '',
+    iconSize: infoItem.iconSize ?? 24,
     order: infoItem.order ?? index,
   })) ?? [],
   tabs:
@@ -68,6 +70,7 @@ export const CaseForm = ({ initialValue, categories, onSubmit }: CaseFormProps) 
     handleSubmit,
     formState: { errors, isSubmitting },
   } = form;
+  const coverImage = form.watch('coverImage');
 
   const submit = handleSubmit(async (values) => {
     await onSubmit({
@@ -81,6 +84,8 @@ export const CaseForm = ({ initialValue, categories, onSubmit }: CaseFormProps) 
       isActive: values.isActive ?? true,
       info: (values.info ?? []).map((item, index: number) => ({
         ...item,
+        icon: item.icon || null,
+        iconSize: Number(item.iconSize ?? 24),
         order: index,
       })),
       tabs: (values.tabs ?? []).map((tab, tabIndex: number) => ({
@@ -110,25 +115,38 @@ export const CaseForm = ({ initialValue, categories, onSubmit }: CaseFormProps) 
       <Stack spacing={3}>
         <Paper sx={{ p: 3, borderRadius: 2 }}>
           <Stack spacing={2}>
-            <AppTextField label="Title" {...register('title')} error={Boolean(errors.title)} helperText={errors.title?.message} />
+            <AppTextField label="Назва" {...register('title')} error={Boolean(errors.title)} helperText={errors.title?.message} />
             <AppTextField label="Slug" {...register('slug')} error={Boolean(errors.slug)} helperText={errors.slug?.message} />
-            <AppTextField select label="Category" {...register('categoryId')} error={Boolean(errors.categoryId)} helperText={errors.categoryId?.message}>
+            <AppTextField select label="Категорія" {...register('categoryId')} error={Boolean(errors.categoryId)} helperText={errors.categoryId?.message}>
               {categories.map((category) => (
                 <MenuItem key={category._id} value={category._id}>
                   {category.title}
                 </MenuItem>
               ))}
             </AppTextField>
-            <AppTextField label="Subtitle" {...register('subtitle')} />
-            <AppTextField label="Description" multiline minRows={3} {...register('description')} />
-            <AppTextField label="Cover image URL" {...register('coverImage')} />
-            <FormControlLabel control={<Checkbox defaultChecked {...register('isActive')} />} label="Active" />
+            <AppTextField label="Підзаголовок" {...register('subtitle')} />
+            <AppTextField label="Опис" multiline minRows={3} {...register('description')} />
+            <ImageUploadField
+              onUploaded={([url]) =>
+                form.setValue('coverImage', url, { shouldDirty: true })
+              }
+            />
+            <AppTextField label="Посилання на обкладинку" {...register('coverImage')} />
+            {coverImage ? (
+              <Box
+                component="img"
+                src={coverImage}
+                alt=""
+                sx={{ width: 180, borderRadius: 1, display: 'block' }}
+              />
+            ) : null}
+            <FormControlLabel control={<Checkbox defaultChecked {...register('isActive')} />} label="Активний" />
           </Stack>
         </Paper>
         <CaseInfoEditor form={form} />
         <CaseTabsEditor form={form} />
         <AppButton type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : 'Save case'}
+          {isSubmitting ? 'Збереження...' : 'Зберегти кейс'}
         </AppButton>
       </Stack>
     </Box>

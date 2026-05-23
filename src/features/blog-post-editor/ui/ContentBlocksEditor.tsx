@@ -23,7 +23,7 @@ export const ContentBlocksEditor = ({ form }: ContentBlocksEditorProps) => {
         direction="row"
         sx={{ justifyContent: 'space-between', alignItems: 'center' }}
       >
-        <Typography variant="h6">Content blocks</Typography>
+        <Typography variant="h6">Контентні блоки</Typography>
         <Button
           variant="outlined"
           onClick={() =>
@@ -37,7 +37,7 @@ export const ContentBlocksEditor = ({ form }: ContentBlocksEditorProps) => {
             })
           }
         >
-          Add block
+          Додати блок
         </Button>
       </Stack>
       {fields.map((field, index) => (

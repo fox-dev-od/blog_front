@@ -24,6 +24,12 @@ const loadPosts = async (setItems: (items: BlogPost[]) => void, setLoading: (val
   }
 };
 
+const statusLabels: Record<BlogPost['status'], string> = {
+  draft: 'Чернетка',
+  pending: 'На перевірці',
+  published: 'Опубліковано',
+};
+
 export const BlogPostsPage = () => {
   const [items, setItems] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -40,18 +46,18 @@ export const BlogPostsPage = () => {
   return (
     <>
       <PageHeader
-        title="Blog posts"
-        action={<Button component={Link} to="/dashboard/blog/create" variant="contained">Create</Button>}
+        title="Статті блогу"
+        action={<Button component={Link} to="/dashboard/blog/create" variant="contained">Створити</Button>}
       />
       {loading ? <Loader /> : items.length === 0 ? <EmptyState /> : (
         <Paper sx={{ borderRadius: 2, overflow: 'hidden' }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Title</TableCell>
+                <TableCell>Заголовок</TableCell>
                 <TableCell>Slug</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell align="right">Actions</TableCell>
+                <TableCell>Статус</TableCell>
+                <TableCell align="right">Дії</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -59,11 +65,11 @@ export const BlogPostsPage = () => {
                 <TableRow key={item._id}>
                   <TableCell>{item.title}</TableCell>
                   <TableCell>{item.slug}</TableCell>
-                  <TableCell>{item.status}</TableCell>
+                  <TableCell>{statusLabels[item.status]}</TableCell>
                   <TableCell align="right">
                     <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end' }}>
-                      <Button component={Link} to={`/dashboard/blog/${item._id}`} size="small">Edit</Button>
-                      <Button color="error" size="small" onClick={() => void handleDelete(item._id)}>Delete</Button>
+                      <Button component={Link} to={`/dashboard/blog/${item._id}`} size="small">Редагувати</Button>
+                      <Button color="error" size="small" onClick={() => void handleDelete(item._id)}>Видалити</Button>
                     </Stack>
                   </TableCell>
                 </TableRow>

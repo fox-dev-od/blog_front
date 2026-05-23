@@ -17,7 +17,7 @@ type RichTextEditorProps = {
 export const RichTextEditor = ({
   value,
   onChange,
-  placeholder = 'Write content...',
+  placeholder = 'Напишіть контент...',
 }: RichTextEditorProps) => {
   const editor = useEditor({
     extensions: [
@@ -35,7 +35,7 @@ export const RichTextEditor = ({
     <Box sx={{ border: 1, borderColor: 'divider', borderRadius: 1, p: 1.5 }}>
       <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
         <Button size="small" onClick={() => editor?.chain().focus().toggleBold().run()}>
-          Bold
+          Жирний
         </Button>
         <Button
           size="small"
@@ -47,7 +47,7 @@ export const RichTextEditor = ({
           size="small"
           onClick={() => editor?.chain().focus().toggleBulletList().run()}
         >
-          List
+          Список
         </Button>
       </Stack>
       <EditorContent editor={editor} />

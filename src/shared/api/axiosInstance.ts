@@ -9,36 +9,13 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  const refreshToken = localStorage.getItem('refreshToken');
-  if (refreshToken) {
-    config.headers['x-refresh-token'] = refreshToken;
-  }
-
-  return config;
-});
-
 axiosInstance.interceptors.response.use(
-  (response) => {
-    const accessToken = response.headers['x-access-token'];
-    const refreshToken = response.headers['x-refresh-token'];
-
-    if (accessToken) {
-      localStorage.setItem('accessToken', accessToken);
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      window.dispatchEvent(new Event('auth:logout'));
     }
 
-    if (refreshToken) {
-      localStorage.setItem('refreshToken', refreshToken);
-    }
-
-    return response;
-  },
-  (error) => {
     toast.error(normalizeError(error));
     return Promise.reject(error);
   },

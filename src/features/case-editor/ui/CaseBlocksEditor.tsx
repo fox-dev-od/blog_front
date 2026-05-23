@@ -7,6 +7,7 @@ import { Controller, useFieldArray, UseFormReturn } from 'react-hook-form';
 
 import { RichTextEditor } from '../../blog-post-editor/ui/RichTextEditor';
 import { AppTextField } from '../../../shared/ui/AppTextField';
+import { ImageUploadField } from '../../../shared/ui/ImageUploadField';
 import { CaseFormValues } from '../model/types';
 
 type CaseBlocksEditorProps = {
@@ -15,14 +16,21 @@ type CaseBlocksEditorProps = {
 };
 
 export const CaseBlocksEditor = ({ form, tabIndex }: CaseBlocksEditorProps) => {
-  const { control, register } = form;
+  const { control, register, getValues, setValue } = form;
   const name = `tabs.${tabIndex}.blocks` as const;
   const { fields, append, remove, move } = useFieldArray({ control, name });
+  const appendImageUrls = (blockIndex: number, urls: string[]) => {
+    const fieldName = `tabs.${tabIndex}.blocks.${blockIndex}.imagesText` as const;
+    const currentValue = getValues(fieldName);
+    setValue(fieldName, [currentValue, ...urls].filter(Boolean).join('\n'), {
+      shouldDirty: true,
+    });
+  };
 
   return (
     <Stack spacing={2}>
       <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
-        <Typography sx={{ fontWeight: 700 }}>Blocks</Typography>
+        <Typography sx={{ fontWeight: 700 }}>Блоки</Typography>
         <Button
           size="small"
           variant="outlined"
@@ -37,44 +45,44 @@ export const CaseBlocksEditor = ({ form, tabIndex }: CaseBlocksEditorProps) => {
             })
           }
         >
-          Add block
+          Додати блок
         </Button>
       </Stack>
       {fields.map((field, blockIndex) => (
         <Paper key={field.id} variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
           <Stack spacing={2}>
             <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
-              <Typography>Block {blockIndex + 1}</Typography>
+              <Typography>Блок {blockIndex + 1}</Typography>
               <Stack direction="row" spacing={1}>
                 <Button size="small" onClick={() => blockIndex > 0 && move(blockIndex, blockIndex - 1)}>
-                  Up
+                  Вгору
                 </Button>
                 <Button
                   size="small"
                   onClick={() => blockIndex < fields.length - 1 && move(blockIndex, blockIndex + 1)}
                 >
-                  Down
+                  Вниз
                 </Button>
                 <Button size="small" color="error" onClick={() => remove(blockIndex)}>
-                  Delete
+                  Видалити
                 </Button>
               </Stack>
             </Stack>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-              <AppTextField select label="Type" {...register(`tabs.${tabIndex}.blocks.${blockIndex}.type`)}>
-                <MenuItem value="text">Text</MenuItem>
-                <MenuItem value="gallery">Gallery</MenuItem>
-                <MenuItem value="text-images">Text with images</MenuItem>
+              <AppTextField select label="Тип" {...register(`tabs.${tabIndex}.blocks.${blockIndex}.type`)}>
+                <MenuItem value="text">Текст</MenuItem>
+                <MenuItem value="gallery">Галерея</MenuItem>
+                <MenuItem value="text-images">Текст із фото</MenuItem>
               </AppTextField>
-              <AppTextField select label="Layout" {...register(`tabs.${tabIndex}.blocks.${blockIndex}.layout`)}>
-                <MenuItem value="text-top">Text top</MenuItem>
-                <MenuItem value="text-left">Text left</MenuItem>
-                <MenuItem value="text-right">Text right</MenuItem>
-                <MenuItem value="gallery-grid">Gallery grid</MenuItem>
-                <MenuItem value="gallery-masonry">Gallery masonry</MenuItem>
+              <AppTextField select label="Макет" {...register(`tabs.${tabIndex}.blocks.${blockIndex}.layout`)}>
+                <MenuItem value="text-top">Текст зверху</MenuItem>
+                <MenuItem value="text-left">Текст ліворуч</MenuItem>
+                <MenuItem value="text-right">Текст праворуч</MenuItem>
+                <MenuItem value="gallery-grid">Галерея сіткою</MenuItem>
+                <MenuItem value="gallery-masonry">Галерея masonry</MenuItem>
               </AppTextField>
             </Stack>
-            <AppTextField label="Heading" {...register(`tabs.${tabIndex}.blocks.${blockIndex}.heading`)} />
+            <AppTextField label="Заголовок блоку" {...register(`tabs.${tabIndex}.blocks.${blockIndex}.heading`)} />
             <Controller
               control={control}
               name={`tabs.${tabIndex}.blocks.${blockIndex}.html`}
@@ -82,8 +90,13 @@ export const CaseBlocksEditor = ({ form, tabIndex }: CaseBlocksEditorProps) => {
                 <RichTextEditor value={editorField.value} onChange={editorField.onChange} />
               )}
             />
+            <ImageUploadField
+              multiple
+              onUploaded={(urls) => appendImageUrls(blockIndex, urls)}
+            />
             <AppTextField
-              label="Image URLs"
+              label="Посилання на фото"
+              placeholder="Одне посилання в рядку"
               multiline
               minRows={2}
               {...register(`tabs.${tabIndex}.blocks.${blockIndex}.imagesText`)}

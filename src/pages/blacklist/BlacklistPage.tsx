@@ -97,23 +97,23 @@ export const BlacklistPage = () => {
 
   return (
     <>
-      <PageHeader title="Blacklist" action={<Button variant="contained" onClick={() => openForm()}>Create</Button>} />
+      <PageHeader title="Чорний список" action={<Button variant="contained" onClick={() => openForm()}>Створити</Button>} />
       {loading ? <Loader /> : items.length === 0 ? <EmptyState /> : (
         <Paper sx={{ borderRadius: 2, overflow: 'hidden' }}>
           <Table>
-            <TableHead><TableRow><TableCell>Type</TableCell><TableCell>Target</TableCell><TableCell>Reason</TableCell><TableCell>Active</TableCell><TableCell align="right">Actions</TableCell></TableRow></TableHead>
+            <TableHead><TableRow><TableCell>Тип</TableCell><TableCell>Ціль</TableCell><TableCell>Причина</TableCell><TableCell>Активний</TableCell><TableCell align="right">Дії</TableCell></TableRow></TableHead>
             <TableBody>
               {items.map((item) => (
                 <TableRow key={item._id}>
                   <TableCell>{item.type}</TableCell>
                   <TableCell>{item.ip || item.userId}</TableCell>
                   <TableCell>{item.reason}</TableCell>
-                  <TableCell>{item.isActive ? 'Yes' : 'No'}</TableCell>
+                  <TableCell>{item.isActive ? 'Так' : 'Ні'}</TableCell>
                   <TableCell align="right">
                     <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end' }}>
-                      <Button size="small" onClick={() => openForm(item)}>Edit</Button>
-                      <Button size="small" onClick={() => void (item.isActive ? blacklistApi.deactivate(item._id) : blacklistApi.activate(item._id)).then(() => loadBlacklist(setItems, setLoading))}>{item.isActive ? 'Deactivate' : 'Activate'}</Button>
-                      <Button size="small" color="error" onClick={() => void handleDelete(item._id)}>Delete</Button>
+                      <Button size="small" onClick={() => openForm(item)}>Редагувати</Button>
+                      <Button size="small" onClick={() => void (item.isActive ? blacklistApi.deactivate(item._id) : blacklistApi.activate(item._id)).then(() => loadBlacklist(setItems, setLoading))}>{item.isActive ? 'Деактивувати' : 'Активувати'}</Button>
+                      <Button size="small" color="error" onClick={() => void handleDelete(item._id)}>Видалити</Button>
                     </Stack>
                   </TableCell>
                 </TableRow>
@@ -123,22 +123,22 @@ export const BlacklistPage = () => {
         </Paper>
       )}
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>{editing ? 'Edit blacklist entry' : 'Create blacklist entry'}</DialogTitle>
+        <DialogTitle>{editing ? 'Редагувати запис' : 'Створити запис'}</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ pt: 1 }}>
-            <AppTextField select label="Type" {...form.register('type')}>
+            <AppTextField select label="Тип" {...form.register('type')}>
               <MenuItem value="ip">IP</MenuItem>
-              <MenuItem value="user">User</MenuItem>
+              <MenuItem value="user">Користувач</MenuItem>
             </AppTextField>
             <AppTextField label="IP" {...form.register('ip')} />
-            <AppTextField label="User ID" {...form.register('userId')} />
-            <AppTextField label="Reason" {...form.register('reason')} />
-            <AppTextField label="Expires at" placeholder="2026-12-31T23:59:59.000Z" {...form.register('expiresAt')} />
+            <AppTextField label="ID користувача" {...form.register('userId')} />
+            <AppTextField label="Причина" {...form.register('reason')} />
+            <AppTextField label="Діє до" placeholder="2026-12-31T23:59:59.000Z" {...form.register('expiresAt')} />
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={() => void submit()} disabled={form.formState.isSubmitting}>Save</Button>
+          <Button onClick={() => setOpen(false)}>Скасувати</Button>
+          <Button variant="contained" onClick={() => void submit()} disabled={form.formState.isSubmitting}>Зберегти</Button>
         </DialogActions>
       </Dialog>
     </>

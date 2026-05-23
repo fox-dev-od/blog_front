@@ -37,21 +37,21 @@ export const LoginForm = () => {
         <Stack spacing={2.5}>
           <Stack spacing={0.5}>
             <Typography variant="h4" sx={{ fontWeight: 700 }}>
-              Sign in
+              Вхід
             </Typography>
             <Typography color="text.secondary">
-              Use your administrator account to continue.
+              Увійдіть в обліковий запис адміністратора.
             </Typography>
           </Stack>
           <AppTextField
-            label="Email"
+            label="Електронна пошта"
             autoComplete="email"
             {...register('email')}
             error={Boolean(errors.email)}
             helperText={errors.email?.message}
           />
           <AppTextField
-            label="Password"
+            label="Пароль"
             type="password"
             autoComplete="current-password"
             {...register('password')}
@@ -59,7 +59,7 @@ export const LoginForm = () => {
             helperText={errors.password?.message}
           />
           <AppButton type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Signing in...' : 'Sign in'}
+            {isSubmitting ? 'Вхід...' : 'Увійти'}
           </AppButton>
         </Stack>
       </Box>

@@ -40,7 +40,7 @@ export const BlogPostEditorPage = () => {
 
   return (
     <>
-      <PageHeader title={isCreate ? 'Create article' : 'Edit article'} />
+      <PageHeader title={isCreate ? 'Створити статтю' : 'Редагувати статтю'} />
       {loading ? <Loader /> : <BlogPostForm initialValue={item} onSubmit={handleSubmit} />}
     </>
   );

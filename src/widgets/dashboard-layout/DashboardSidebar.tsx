@@ -10,19 +10,23 @@ import {
   FiActivity,
   FiBookOpen,
   FiBriefcase,
+  FiFileText,
   FiGrid,
   FiHome,
   FiShield,
   FiTag,
+  FiUsers,
 } from 'react-icons/fi';
 
 const items = [
-  { label: 'Dashboard', path: '/dashboard', icon: <FiHome /> },
-  { label: 'Blog', path: '/dashboard/blog', icon: <FiBookOpen /> },
-  { label: 'Categories', path: '/dashboard/case-categories', icon: <FiTag /> },
-  { label: 'Cases', path: '/dashboard/cases', icon: <FiBriefcase /> },
-  { label: 'Activity logs', path: '/dashboard/activity-logs', icon: <FiActivity /> },
-  { label: 'Blacklist', path: '/dashboard/blacklist', icon: <FiShield /> },
+  { label: 'Панель', path: '/dashboard', icon: <FiHome /> },
+  { label: 'Блог', path: '/dashboard/blog', icon: <FiBookOpen /> },
+  { label: 'Категорії', path: '/dashboard/case-categories', icon: <FiTag /> },
+  { label: 'Кейси', path: '/dashboard/cases', icon: <FiBriefcase /> },
+  { label: 'Користувачі', path: '/dashboard/users', icon: <FiUsers /> },
+  { label: 'API документація', path: '/dashboard/docs', icon: <FiFileText /> },
+  { label: 'Журнал', path: '/dashboard/activity-logs', icon: <FiActivity /> },
+  { label: 'Чорний список', path: '/dashboard/blacklist', icon: <FiShield /> },
 ];
 
 export const sidebarWidth = 260;
@@ -44,7 +48,7 @@ export const DashboardSidebar = () => (
         DASP Admin
       </Typography>
       <Typography variant="body2" color="text.secondary">
-        Content dashboard
+        Панель контенту
       </Typography>
     </Box>
     <Divider />

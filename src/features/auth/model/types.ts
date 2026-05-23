@@ -15,6 +15,4 @@ export type LoginPayload = {
 
 export type LoginResponse = {
   user: CurrentUser;
-  accessToken: string;
-  refreshToken?: string;
 };
