@@ -1,0 +1,23 @@
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ProseMirror {
+  min-height: 180px;
+  outline: none;
+}
+
+.ProseMirror p {
+  margin: 0 0 10px;
+}
