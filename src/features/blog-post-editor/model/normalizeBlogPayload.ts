@@ -33,6 +33,8 @@ export const normalizeBlogPayloadBeforeSubmit = (
   title: values.title,
   slug: values.slug,
   subtitle: values.subtitle || null,
+  coverImage: values.coverImage || null,
+  description: values.description || null,
   tags: splitTags(values.tagsText),
   status: values.status ?? 'draft',
   blocks: (values.blocks ?? [])
@@ -43,10 +45,15 @@ export const normalizeBlogPayloadBeforeSubmit = (
       const layout = layoutMap[block.layout ?? 'text-top'] ?? 'text_only';
 
       return {
-        ...(imageUrl ? { imageUrl } : {}),
-        ...(html ? { html } : {}),
+        type: block.type || 'text',
+        heading: block.heading || null,
+        text: block.text || null,
+        imageUrl: imageUrl || null,
+        images: images,
+        html: html || null,
         layout: imageUrl ? layout : 'text_only',
+        order: typeof block.order === 'number' ? block.order : Number(block.order ?? 0) || 0,
       };
     })
-    .filter((block) => block.imageUrl || block.html),
+    .filter((block) => block.imageUrl || block.html || block.heading),
 });

@@ -31,6 +31,7 @@ export const router = createBrowserRouter([
       { path: 'cases/create', element: <CaseEditorPage /> },
       { path: 'cases/:id', element: <CaseEditorPage /> },
       { path: 'users', element: <UsersPage /> },
+      { path: 'users/create', element: <UserEditorPage /> },
       { path: 'users/:id', element: <UserEditorPage /> },
       { path: 'docs', element: <DashboardDocsPage /> },
       { path: 'activity-logs', element: <ActivityLogsPage /> },

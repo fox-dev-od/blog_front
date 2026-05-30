@@ -10,6 +10,14 @@ export type User = {
   updatedAt?: string;
 };
 
+export type UserCreatePayload = {
+  email: string;
+  name: string;
+  password?: string;
+  role: UserRole;
+  isActive: boolean;
+};
+
 export type UserUpdatePayload = Partial<{
   email: string;
   name: string;

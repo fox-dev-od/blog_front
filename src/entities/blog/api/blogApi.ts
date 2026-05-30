@@ -9,8 +9,14 @@ export const blogApi = {
     );
     return Array.isArray(data) ? data : data.items ?? [];
   },
+  getAdminAll: async (params: Record<string, unknown> = {}) => {
+    const { data } = await axiosInstance.get<{ items?: BlogPost[] } | BlogPost[]>(
+      `/blog/admin${buildQuery(params)}`,
+    );
+    return Array.isArray(data) ? data : data.items ?? [];
+  },
   getById: async (id: string) => {
-    const { data } = await axiosInstance.get<BlogPost>(`/blog/${id}`);
+    const { data } = await axiosInstance.get<BlogPost>(`/blog/admin/${id}`);
     return data;
   },
   create: async (payload: BlogPostPayload) => {

@@ -3,7 +3,7 @@ import { ApiDocsContent } from '../../widgets/api-docs/ApiDocsContent';
 
 export const DashboardDocsPage = () => (
   <>
-    <PageHeader title="API документація" subtitle="Публічні endpoints і приклади інтеграції." />
-    <ApiDocsContent />
+    <PageHeader title="API документація" subtitle="Детальний опис внутрішньої структури API та інтеграції." />
+    <ApiDocsContent detailed />
   </>
 );

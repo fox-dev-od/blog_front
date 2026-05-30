@@ -55,49 +55,91 @@ export const UserEditorPage = () => {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm<UserFormValues>({ defaultValues: toDefaultValues() });
 
   useEffect(() => {
     if (id) {
       void loadUser(id, setItem, reset, setLoading);
+    } else {
+      setItem(null);
+      reset(toDefaultValues(null));
+      setLoading(false);
     }
   }, [id, reset]);
 
   const submit = handleSubmit(async (values) => {
-    if (!id) {
-      return;
+    if (id) {
+      await usersApi.update(id, {
+        email: values.email,
+        name: values.name,
+        role: values.role,
+        isActive: values.isActive,
+        ...(values.password ? { password: values.password } : {}),
+      });
+    } else {
+      await usersApi.create({
+        email: values.email,
+        name: values.name,
+        password: values.password || undefined,
+        role: values.role,
+        isActive: values.isActive,
+      });
     }
-
-    await usersApi.update(id, {
-      email: values.email,
-      name: values.name,
-      role: values.role,
-      isActive: values.isActive,
-      ...(values.password ? { password: values.password } : {}),
-    });
     navigate('/dashboard/users');
   });
 
   return (
     <>
-      <PageHeader title={item ? `Редагувати ${item.email}` : 'Редагувати користувача'} />
+      <PageHeader
+        title={
+          id
+            ? item
+              ? `Редагувати ${item.email}`
+              : 'Редагувати користувача'
+            : 'Створити користувача'
+        }
+      />
       {loading ? (
         <Loader />
       ) : (
         <Paper component="form" onSubmit={submit} sx={{ p: 3, borderRadius: 2 }}>
           <Stack spacing={2}>
-            <AppTextField label="Email" type="email" {...register('email')} />
-            <AppTextField label="Імʼя користувача" {...register('name')} />
-            <AppTextField label="Новий пароль" type="password" {...register('password')} />
-            <AppTextField select label="Роль" {...register('role')}>
+            <AppTextField
+              label="Email"
+              type="email"
+              {...register('email', { required: 'Email обовʼязковий' })}
+              error={Boolean(errors.email)}
+              helperText={errors.email?.message}
+            />
+            <AppTextField
+              label="Імʼя користувача"
+              {...register('name', { required: 'Імʼя користувача обовʼязкове' })}
+              error={Boolean(errors.name)}
+              helperText={errors.name?.message}
+            />
+            <AppTextField
+              label={id ? 'Новий пароль (необовʼязково)' : 'Пароль'}
+              type="password"
+              {...register('password', {
+                required: id ? false : 'Пароль обовʼязковий',
+                minLength: { value: 6, message: 'Мінімум 6 символів' },
+              })}
+              error={Boolean(errors.password)}
+              helperText={errors.password?.message}
+            />
+            <AppTextField select label="Роль" {...register('role', { required: 'Роль обовʼязкова' })}>
               <MenuItem value="admin">Адміністратор</MenuItem>
               <MenuItem value="author">Автор</MenuItem>
               <MenuItem value="user">Користувач</MenuItem>
             </AppTextField>
             <FormControlLabel control={<Checkbox {...register('isActive')} />} label="Активний" />
             <AppButton type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Збереження...' : 'Зберегти користувача'}
+              {isSubmitting
+                ? 'Збереження...'
+                : id
+                ? 'Зберегти користувача'
+                : 'Створити користувача'}
             </AppButton>
           </Stack>
         </Paper>

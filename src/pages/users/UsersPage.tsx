@@ -67,7 +67,15 @@ export const UsersPage = () => {
 
   return (
     <>
-      <PageHeader title="Користувачі" subtitle="Керування обліковими записами та ролями." />
+      <PageHeader
+        title="Користувачі"
+        subtitle="Керування обліковими записами та ролями."
+        action={
+          <Button component={Link} to="/dashboard/users/create" variant="contained" color="primary">
+            Додати користувача
+          </Button>
+        }
+      />
       <Stack spacing={2}>
         <AppTextField
           label="Пошук"

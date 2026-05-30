@@ -43,16 +43,58 @@ export const ActivityLogsPage = () => {
       {loading ? <Loader /> : items.length === 0 ? <EmptyState /> : (
         <Paper sx={{ borderRadius: 2, overflow: 'hidden' }}>
           <Table>
-            <TableHead><TableRow><TableCell>Дія</TableCell><TableCell>Метод</TableCell><TableCell>URL</TableCell><TableCell>Статус</TableCell><TableCell>Створено</TableCell><TableCell align="right">Дії</TableCell></TableRow></TableHead>
+            <TableHead>
+              <TableRow>
+                <TableCell>Дія</TableCell>
+                <TableCell>Користувач</TableCell>
+                <TableCell>Метод</TableCell>
+                <TableCell>URL</TableCell>
+                <TableCell>Статус</TableCell>
+                <TableCell>Створено</TableCell>
+                <TableCell align="right">Дії</TableCell>
+              </TableRow>
+            </TableHead>
             <TableBody>
               {items.map((item) => (
                 <TableRow key={item._id}>
-                  <TableCell>{item.action}</TableCell>
-                  <TableCell>{item.method}</TableCell>
-                  <TableCell>{item.url}</TableCell>
-                  <TableCell><Chip size="small" color={item.success ? 'success' : 'error'} label={item.statusCode ?? 'н/д'} /></TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>{item.action}</TableCell>
+                  <TableCell>{item.userEmail || 'Система'}</TableCell>
+                  <TableCell>
+                    <Chip
+                      size="small"
+                      variant="outlined"
+                      label={item.method}
+                      color={
+                        item.method === 'GET'
+                          ? 'success'
+                          : item.method === 'POST'
+                          ? 'primary'
+                          : item.method === 'DELETE'
+                          ? 'error'
+                          : 'warning'
+                      }
+                      sx={{ fontWeight: 700, fontSize: 11 }}
+                    />
+                  </TableCell>
+                  <TableCell sx={{ fontFamily: 'monospace', fontSize: 13 }}>{item.url}</TableCell>
+                  <TableCell>
+                    <Chip
+                      size="small"
+                      color={item.success ? 'success' : 'error'}
+                      label={item.statusCode ?? 'н/д'}
+                      sx={{ fontWeight: 600 }}
+                    />
+                  </TableCell>
                   <TableCell>{new Date(item.createdAt).toLocaleString()}</TableCell>
-                  <TableCell align="right"><Button size="small" color="error" onClick={() => void handleDelete(item._id)}>Видалити</Button></TableCell>
+                  <TableCell align="right">
+                    <Button
+                      size="small"
+                      color="error"
+                      onClick={() => void handleDelete(item._id)}
+                    >
+                      Видалити
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

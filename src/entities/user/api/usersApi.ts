@@ -1,5 +1,5 @@
 import { axiosInstance } from '../../../shared/api/axiosInstance';
-import { User, UserUpdatePayload } from '../model/types';
+import { User, UserCreatePayload, UserUpdatePayload } from '../model/types';
 
 export const usersApi = {
   getAll: async () => {
@@ -8,6 +8,10 @@ export const usersApi = {
   },
   getById: async (id: string) => {
     const { data } = await axiosInstance.get<User>(`/users/${id}`);
+    return data;
+  },
+  create: async (payload: UserCreatePayload) => {
+    const { data } = await axiosInstance.post<User>('/users', payload);
     return data;
   },
   update: async (id: string, payload: UserUpdatePayload) => {

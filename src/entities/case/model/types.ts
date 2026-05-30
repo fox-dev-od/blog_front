@@ -28,6 +28,8 @@ export type CaseItem = {
   tabs: CaseTab[];
   order: number;
   isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type CasePayload = Omit<CaseItem, '_id'>;
