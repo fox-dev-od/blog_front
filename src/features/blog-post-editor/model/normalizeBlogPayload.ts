@@ -1,20 +1,6 @@
 import { BlogBlockLayout, BlogPostPayload } from '../../../entities/blog/model/types';
 import { BlogPostFormValues } from './types';
 
-const layoutMap: Record<string, BlogBlockLayout> = {
-  'text-top': 'image_bottom_text_top',
-  'text-left': 'image_right_text_left',
-  'text-right': 'image_left_text_right',
-  'gallery-grid': 'image_only',
-  'gallery-masonry': 'image_only',
-  'image-top-text-bottom': 'image_top_text_bottom',
-  'image-bottom-text-top': 'image_bottom_text_top',
-  'image-left-text-right': 'image_left_text_right',
-  'image-right-text-left': 'image_right_text_left',
-  'image-only': 'image_only',
-  'text-only': 'text_only',
-};
-
 const splitTags = (value?: string) =>
   value
     ?.split(',')
@@ -42,7 +28,7 @@ export const normalizeBlogPayloadBeforeSubmit = (
       const images = splitImages(block.imagesText);
       const html = block.html?.trim();
       const imageUrl = images[0];
-      const layout = layoutMap[block.layout ?? 'text-top'] ?? 'text_only';
+      const layout = (block.layout || 'text_only') as BlogBlockLayout;
 
       return {
         type: block.type || 'text',

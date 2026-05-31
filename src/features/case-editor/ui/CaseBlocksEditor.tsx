@@ -16,7 +16,7 @@ type CaseBlocksEditorProps = {
 };
 
 export const CaseBlocksEditor = ({ form, tabIndex }: CaseBlocksEditorProps) => {
-  const { control, register, getValues, setValue } = form;
+  const { control, register, getValues, setValue, watch } = form;
   const name = `tabs.${tabIndex}.blocks` as const;
   const { fields, append, remove, move } = useFieldArray({ control, name });
   const appendImageUrls = (blockIndex: number, urls: string[]) => {
@@ -69,12 +69,22 @@ export const CaseBlocksEditor = ({ form, tabIndex }: CaseBlocksEditorProps) => {
               </Stack>
             </Stack>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-              <AppTextField select label="Тип" {...register(`tabs.${tabIndex}.blocks.${blockIndex}.type`)}>
+              <AppTextField
+                select
+                label="Тип"
+                value={watch(`tabs.${tabIndex}.blocks.${blockIndex}.type`)}
+                {...register(`tabs.${tabIndex}.blocks.${blockIndex}.type`)}
+              >
                 <MenuItem value="text">Текст</MenuItem>
                 <MenuItem value="gallery">Галерея</MenuItem>
                 <MenuItem value="text-images">Текст із фото</MenuItem>
               </AppTextField>
-              <AppTextField select label="Макет" {...register(`tabs.${tabIndex}.blocks.${blockIndex}.layout`)}>
+              <AppTextField
+                select
+                label="Макет"
+                value={watch(`tabs.${tabIndex}.blocks.${blockIndex}.layout`)}
+                {...register(`tabs.${tabIndex}.blocks.${blockIndex}.layout`)}
+              >
                 <MenuItem value="text-top">Текст зверху</MenuItem>
                 <MenuItem value="text-left">Текст ліворуч</MenuItem>
                 <MenuItem value="text-right">Текст праворуч</MenuItem>

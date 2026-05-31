@@ -25,7 +25,7 @@ export const ContentBlockCard = ({
   onMoveUp,
   onMoveDown,
 }: ContentBlockCardProps) => {
-  const { register, control, getValues, setValue } = form;
+  const { register, control, getValues, setValue, watch } = form;
   const imagesFieldName = `blocks.${index}.imagesText` as const;
   const appendImageUrls = (urls: string[]) => {
     const currentValue = getValues(imagesFieldName);
@@ -57,17 +57,28 @@ export const ContentBlockCard = ({
           </Stack>
         </Stack>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-          <AppTextField select label="Тип" {...register(`blocks.${index}.type`)}>
+          <AppTextField
+            select
+            label="Тип"
+            value={watch(`blocks.${index}.type`)}
+            {...register(`blocks.${index}.type`)}
+          >
             <MenuItem value="text">Текст</MenuItem>
             <MenuItem value="gallery">Галерея</MenuItem>
             <MenuItem value="text-images">Текст із фото</MenuItem>
           </AppTextField>
-          <AppTextField select label="Макет" {...register(`blocks.${index}.layout`)}>
-            <MenuItem value="text-top">Текст зверху</MenuItem>
-            <MenuItem value="text-left">Текст ліворуч</MenuItem>
-            <MenuItem value="text-right">Текст праворуч</MenuItem>
-            <MenuItem value="gallery-grid">Галерея сіткою</MenuItem>
-            <MenuItem value="gallery-masonry">Галерея masonry</MenuItem>
+          <AppTextField
+            select
+            label="Макет"
+            value={watch(`blocks.${index}.layout`)}
+            {...register(`blocks.${index}.layout`)}
+          >
+            <MenuItem value="image_bottom_text_top">Текст зверху, зображення знизу</MenuItem>
+            <MenuItem value="image_top_text_bottom">Текст знизу, зображення зверху</MenuItem>
+            <MenuItem value="image_right_text_left">Текст ліворуч, зображення праворуч</MenuItem>
+            <MenuItem value="image_left_text_right">Текст праворуч, зображення ліворуч</MenuItem>
+            <MenuItem value="image_only">Тільки зображення</MenuItem>
+            <MenuItem value="text_only">Тільки текст</MenuItem>
           </AppTextField>
         </Stack>
         <AppTextField label="Заголовок блоку" {...register(`blocks.${index}.heading`)} />

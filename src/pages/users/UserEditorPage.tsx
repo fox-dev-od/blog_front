@@ -55,6 +55,7 @@ export const UserEditorPage = () => {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm<UserFormValues>({ defaultValues: toDefaultValues() });
 
@@ -128,7 +129,12 @@ export const UserEditorPage = () => {
               error={Boolean(errors.password)}
               helperText={errors.password?.message}
             />
-            <AppTextField select label="Роль" {...register('role', { required: 'Роль обовʼязкова' })}>
+            <AppTextField
+              select
+              label="Роль"
+              value={watch('role')}
+              {...register('role', { required: 'Роль обовʼязкова' })}
+            >
               <MenuItem value="admin">Адміністратор</MenuItem>
               <MenuItem value="author">Автор</MenuItem>
               <MenuItem value="user">Користувач</MenuItem>

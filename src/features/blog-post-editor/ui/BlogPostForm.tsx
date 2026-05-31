@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
@@ -35,7 +36,7 @@ const toDefaultValues = (post?: BlogPost | null): BlogPostFormValues => ({
       text: block.text ?? '',
       html: block.html ?? '',
       imagesText: block.images?.join('\n') ?? block.imageUrl ?? '',
-      layout: (block.layout || 'text-top') as NonNullable<
+      layout: (block.layout || 'text_only') as NonNullable<
         BlogPostFormValues['blocks']
       >[number]['layout'],
       order: block.order ?? index,
@@ -50,9 +51,15 @@ export const BlogPostForm = ({ initialValue, onSubmit }: BlogPostFormProps) => {
   const {
     register,
     handleSubmit,
+    reset,
+    watch,
     formState: { errors, isSubmitting },
   } = form;
   const coverImage = useWatch({ control: form.control, name: 'coverImage' });
+
+  useEffect(() => {
+    reset(toDefaultValues(initialValue));
+  }, [initialValue, reset]);
 
   const submit = handleSubmit(async (values) => {
     await onSubmit(normalizeBlogPayloadBeforeSubmit(values));
@@ -100,7 +107,12 @@ export const BlogPostForm = ({ initialValue, onSubmit }: BlogPostFormProps) => {
                 />
               ) : null}
               <AppTextField label="Теги" placeholder="design, backend" {...register('tagsText')} />
-              <AppTextField select label="Статус" {...register('status')}>
+              <AppTextField
+                select
+                label="Статус"
+                value={watch('status')}
+                {...register('status')}
+              >
                 <MenuItem value="draft">Чернетка</MenuItem>
                 <MenuItem value="pending">На перевірці</MenuItem>
                 <MenuItem value="published">Опубліковано</MenuItem>

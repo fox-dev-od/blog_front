@@ -16,7 +16,11 @@ axiosInstance.interceptors.response.use(
       window.dispatchEvent(new Event('auth:logout'));
     }
 
-    toast.error(normalizeError(error));
+    const isAuthMe = error.config?.url?.includes('/auth/me');
+    if (!isAuthMe) {
+      toast.error(normalizeError(error));
+    }
+
     return Promise.reject(error);
   },
 );

@@ -1,4 +1,3 @@
-import { blogBlockSchema } from '../../blog-post-editor/model/schemas';
 import { z } from 'zod';
 
 export const caseInfoSchema = z.object({
@@ -9,12 +8,30 @@ export const caseInfoSchema = z.object({
   order: z.coerce.number().default(0),
 });
 
+export const caseBlockSchema = z.object({
+  type: z.enum(['text', 'gallery', 'text-images']).default('text'),
+  heading: z.string().optional(),
+  text: z.string().optional(),
+  html: z.string().optional(),
+  imagesText: z.string().optional(),
+  layout: z
+    .enum([
+      'text-top',
+      'text-left',
+      'text-right',
+      'gallery-grid',
+      'gallery-masonry',
+    ])
+    .default('text-top'),
+  order: z.coerce.number().default(0),
+});
+
 export const caseTabSchema = z.object({
   title: z.string().min(1, 'Вкажіть назву вкладки'),
   slug: z.string().min(1, 'Вкажіть slug'),
   order: z.coerce.number().default(0),
   isActive: z.boolean().default(true),
-  blocks: z.array(blogBlockSchema).default([]),
+  blocks: z.array(caseBlockSchema).default([]),
 });
 
 export const caseSchema = z.object({

@@ -126,7 +126,12 @@ export const BlacklistPage = () => {
         <DialogTitle>{editing ? 'Редагувати запис' : 'Створити запис'}</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ pt: 1 }}>
-            <AppTextField select label="Тип" {...form.register('type')}>
+            <AppTextField
+              select
+              label="Тип"
+              value={form.watch('type')}
+              {...form.register('type')}
+            >
               <MenuItem value="ip">IP</MenuItem>
               <MenuItem value="user">Користувач</MenuItem>
             </AppTextField>

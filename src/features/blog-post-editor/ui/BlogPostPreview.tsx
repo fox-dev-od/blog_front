@@ -36,7 +36,7 @@ const renderBlockImages = (images: string[], layout?: string) => {
       sx={{
         display: 'grid',
         gridTemplateColumns:
-          layout === 'gallery-masonry' ? 'repeat(2, minmax(0, 1fr))' : 'repeat(auto-fit, minmax(140px, 1fr))',
+          layout === 'image_only' ? 'repeat(2, minmax(0, 1fr))' : 'repeat(auto-fit, minmax(140px, 1fr))',
         gap: 1,
       }}
     >
@@ -48,7 +48,7 @@ const renderBlockImages = (images: string[], layout?: string) => {
           alt=""
           sx={{
             width: '100%',
-            aspectRatio: layout === 'gallery-masonry' ? '4 / 5' : '4 / 3',
+            aspectRatio: layout === 'image_only' ? '4 / 5' : '4 / 3',
             objectFit: 'cover',
             borderRadius: 1,
             bgcolor: 'grey.100',
@@ -105,8 +105,8 @@ const renderBlock = (block: PreviewBlock, index: number) => {
     );
   }
 
-  if (block.type === 'text-images' && images.length > 0 && block.layout !== 'text-top') {
-    const imageFirst = block.layout === 'text-right';
+  if (block.type === 'text-images' && images.length > 0 && block.layout !== 'image_bottom_text_top') {
+    const imageFirst = block.layout === 'image_left_text_right';
 
     return (
       <Box

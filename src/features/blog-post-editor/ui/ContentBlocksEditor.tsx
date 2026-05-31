@@ -29,7 +29,7 @@ export const ContentBlocksEditor = ({ form }: ContentBlocksEditorProps) => {
           onClick={() =>
             append({
               type: 'text',
-              layout: 'text-top',
+              layout: 'text_only',
               heading: '',
               html: '',
               imagesText: '',

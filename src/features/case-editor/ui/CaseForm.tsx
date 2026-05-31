@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -68,9 +69,15 @@ export const CaseForm = ({ initialValue, categories, onSubmit }: CaseFormProps) 
   const {
     register,
     handleSubmit,
+    reset,
+    watch,
     formState: { errors, isSubmitting },
   } = form;
-  const coverImage = form.watch('coverImage');
+  const coverImage = watch('coverImage');
+
+  useEffect(() => {
+    reset(toDefaultValues(initialValue));
+  }, [initialValue, reset]);
 
   const submit = handleSubmit(async (values) => {
     await onSubmit({
@@ -117,7 +124,14 @@ export const CaseForm = ({ initialValue, categories, onSubmit }: CaseFormProps) 
           <Stack spacing={2}>
             <AppTextField label="Назва" {...register('title')} error={Boolean(errors.title)} helperText={errors.title?.message} />
             <AppTextField label="Slug" {...register('slug')} error={Boolean(errors.slug)} helperText={errors.slug?.message} />
-            <AppTextField select label="Категорія" {...register('categoryId')} error={Boolean(errors.categoryId)} helperText={errors.categoryId?.message}>
+            <AppTextField
+              select
+              label="Категорія"
+              value={watch('categoryId')}
+              {...register('categoryId')}
+              error={Boolean(errors.categoryId)}
+              helperText={errors.categoryId?.message}
+            >
               {categories.map((category) => (
                 <MenuItem key={category._id} value={category._id}>
                   {category.title}

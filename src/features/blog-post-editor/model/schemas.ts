@@ -8,19 +8,14 @@ export const blogBlockSchema = z.object({
   imagesText: z.string().optional(),
   layout: z
     .enum([
-      'text-top',
-      'text-left',
-      'text-right',
-      'gallery-grid',
-      'gallery-masonry',
-      'image-top-text-bottom',
-      'image-bottom-text-top',
-      'image-left-text-right',
-      'image-right-text-left',
-      'image-only',
-      'text-only',
+      'image_top_text_bottom',
+      'image_bottom_text_top',
+      'image_left_text_right',
+      'image_right_text_left',
+      'image_only',
+      'text_only',
     ])
-    .default('text-top'),
+    .default('text_only'),
   order: z.coerce.number().default(0),
 });
 
